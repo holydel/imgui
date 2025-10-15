@@ -2,13 +2,14 @@
 // Created by holyd on 05.06.2024.
 //
 #include "imgui_impl_emscripten.h"
-#ifdef MERCURY_PLATFORM_EMSCRIPTEN
+
+#ifdef MERCURY_LL_OS_EMSCRIPTEN
 IMGUI_IMPL_API bool     ImGui_ImplEmscripten_Init()
 {
     ImGuiIO& io = ImGui::GetIO();
     io.BackendPlatformName = "imgui_impl_emscripten";
 
-    io.DisplaySize = ImVec2(1280,720);
+    io.DisplaySize = ImVec2(300,150);
 
     return true;
 }

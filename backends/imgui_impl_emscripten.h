@@ -4,9 +4,8 @@
 
 #pragma once
 #include "mercury_api.h"
-#ifdef MERCURY_PLATFORM_EMSCRIPTEN
+#ifdef MERCURY_LL_OS_EMSCRIPTEN
 #include "imgui.h"      // IMGUI_IMPL_API
-#include "emscripten/html5_webgpu.h"
 
 IMGUI_IMPL_API bool     ImGui_ImplEmscripten_Init();
 IMGUI_IMPL_API void     ImGui_ImplEmscripten_Shutdown();
