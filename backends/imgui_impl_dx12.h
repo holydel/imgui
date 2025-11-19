@@ -34,7 +34,8 @@ struct ImGui_ImplDX12_InitInfo
     DXGI_FORMAT                 RTVFormat;          // RenderTarget format.
     DXGI_FORMAT                 DSVFormat;          // DepthStencilView format.
     void*                       UserData;
-
+    UINT                        MSAASampleCount;
+    UINT                        MSAAQuality;
     // Allocating SRV descriptors for textures is up to the application, so we provide callbacks.
     // (current version of the backend will only allocate one descriptor, from 1.92 the backend will need to allocate more)
     ID3D12DescriptorHeap*       SrvDescriptorHeap;
@@ -45,7 +46,7 @@ struct ImGui_ImplDX12_InitInfo
     D3D12_GPU_DESCRIPTOR_HANDLE LegacySingleSrvGpuDescriptor;
 #endif
 
-    ImGui_ImplDX12_InitInfo()   { memset((void*)this, 0, sizeof(*this)); }
+    ImGui_ImplDX12_InitInfo() { memset((void*)this, 0, sizeof(*this)); MSAASampleCount = 1; }
 };
 
 // Follow "Getting Started" link and check examples/ folder to learn about using backends!

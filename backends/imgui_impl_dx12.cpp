@@ -101,6 +101,8 @@ struct ImGui_ImplDX12_Data
     ID3D12CommandQueue*         pCommandQueue;
     bool                        commandQueueOwned;
     DXGI_FORMAT                 RTVFormat;
+    UINT                        MSAASampleCount;
+    UINT                        MSAAQuality;
     DXGI_FORMAT                 DSVFormat;
     ID3D12DescriptorHeap*       pd3dSrvDescHeap;
     ID3D12Fence*                Fence;
@@ -116,7 +118,7 @@ struct ImGui_ImplDX12_Data
     UINT                        pTexUploadBufferSize;
     void*                       pTexUploadBufferMapped;
 
-    ImGui_ImplDX12_Data()       { memset((void*)this, 0, sizeof(*this)); }
+    ImGui_ImplDX12_Data() { memset((void*)this, 0, sizeof(*this)); MSAASampleCount = 1; }
 };
 
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
@@ -737,7 +739,9 @@ bool    ImGui_ImplDX12_CreateDeviceObjects()
     psoDesc.NumRenderTargets = 1;
     psoDesc.RTVFormats[0] = bd->RTVFormat;
     psoDesc.DSVFormat = bd->DSVFormat;
-    psoDesc.SampleDesc.Count = 1;
+
+    psoDesc.SampleDesc.Count = bd->MSAASampleCount;
+    psoDesc.SampleDesc.Quality = bd->MSAAQuality;
     psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 
     ID3DBlob* vertexShaderBlob;
@@ -954,6 +958,8 @@ bool ImGui_ImplDX12_Init(ImGui_ImplDX12_InitInfo* init_info)
     bd->pCommandQueue = init_info->CommandQueue;
     bd->RTVFormat = init_info->RTVFormat;
     bd->DSVFormat = init_info->DSVFormat;
+    bd->MSAASampleCount = init_info->MSAASampleCount;
+    bd->MSAAQuality = init_info->MSAAQuality;
     bd->numFramesInFlight = init_info->NumFramesInFlight;
     bd->pd3dSrvDescHeap = init_info->SrvDescriptorHeap;
     bd->tearingSupport = false;
